@@ -219,3 +219,204 @@ safaricl.accelerate();
 safaricl.break();
 
 console.log('//////////////////////////////');
+
+//Inheritance of Classes
+
+// const person = function(firstName, birthYear) {
+//   this.firstName = firstName;
+//   this.birthYear = birthYear;
+// }
+
+// person.prototype.calAge = function(){
+//   console.log(`${this.firstName} is ${2023 - this.birthYear} old`);
+// }
+
+// const student = function(firstName, birthYear, course) {
+//   person.call(this, firstName, birthYear);
+//   this.course = course;
+// }
+
+// student.prototype = Object.create(person.prototype);
+
+// student.prototype.deatils = function() {
+//   console.log(this.firstName+ ' is studying '+ this.course);
+// }
+
+// const sunil = new student('Sunil Kumar H S', 2000, 'MCA');
+
+// sunil.deatils();
+// sunil.calAge();
+
+// console.log(sunil.__proto__);
+// console.log(sunil.__proto__.__proto__);
+// console.log(sunil instanceof student);
+// student.prototype.constructor = student;
+
+console.log('Coding Challenge #3');
+///////////////////////////////////////
+// Coding Challenge #3
+
+/* 
+1. Use a constructor function to implement an Electric Car (called EV) as a CHILD "class" of Car. Besides a make and current speed, the EV also has the current battery charge in % ('charge' property);
+2. Implement a 'chargeBattery' method which takes an argument 'chargeTo' and sets the battery charge to 'chargeTo';
+3. Implement an 'accelerate' method that will increase the car's speed by 20, and decrease the charge by 1%. Then log a message like this: 'Tesla going at 140 km/h, with a charge of 22%';
+4. Create an electric car object and experiment with calling 'accelerate', 'brake' and 'chargeBattery' (charge to 90%). Notice what happens when you 'accelerate'! HINT: Review the definiton of polymorphism 😉
+
+DATA CAR 1: 'Tesla' going at 120 km/h, with a charge of 23%
+
+GOOD LUCK 😀
+*/
+
+const EV = function(make, speed, battery) {
+  car.call(this, make, speed);
+  this.battery = battery;
+  console.log(this.make+' going at '+this.speed+ ' km/h, with a charge of '+this.battery+'%');
+}
+EV.prototype = Object.create(car.prototype);
+
+EV.prototype.chargeBattery = function(chargeTo) {
+  this.battery = chargeTo;
+  console.log('Car battery charged upto '+ this.battery+'%');
+}
+
+EV.prototype.accelerate = function() {
+  this.speed += 20;
+  console.log(`${this.make} is moving at ${this.speed} with a charge of ${this.battery -= 1}%`);
+}
+
+const altroz = new EV('TATA AltrozEV', 120, 50);
+
+altroz.accelerate();
+altroz.break();
+altroz.accelerate();
+altroz.break();
+altroz.chargeBattery(95);
+altroz.accelerate();
+
+// console.log(altroz);
+console.log('------------------------------');
+
+//Inheritance of classes 
+// class personCl {
+//   constructor(fullName, birthYear) {
+//     this.fullName = fullName;
+//     this.birthYear = birthYear;
+//   }
+
+//   claAge() {
+//     console.log(`Your age is ${2023 - this.birthYear}`);
+//   }
+
+//   set fullName(name) {
+//     if (name.includes(' ')) {
+//       this._fullName = name;
+//     } else {
+//       alert('Enter full Name!');
+//     }
+//   }
+
+//   get fullName() {
+//     return this._fullName;
+//   }
+
+//   get age() {
+//     return 2023 - this.birthYear;
+//   }
+
+//   static hey() {
+//     console.log('Hello !!!');
+//   }
+// }
+
+// class studentCl extends personCl {
+//   constructor(fullname, birthYear, course) {
+//     super(fullname, birthYear);
+//     this.course = course;
+//   }
+
+//   details() {
+//     console.log(this.fullName+ ' is studying '+ this.course);
+//   }
+
+//   claAge() {
+//     console.log(`I'am ${2023 - this.birthYear} years old !`);
+//   }
+// }
+
+// const sunil = new studentCl('Sunil Kumar H S', 2000, 'M.C.A');
+// sunil.details();
+// sunil.claAge();
+
+//Object.create inheritance
+
+// const personPrototype = {
+//     claAge() {
+//       console.log(`Your age is ${2023 - this.birthYear}`);
+//     },
+//     init(firstName, birthYear) {
+//       this.firstName = firstName;
+//       this.birthYear = birthYear;
+//     },
+//   };
+
+// const studentPrototype = Object.create(personPrototype);
+
+// studentPrototype.init = function(firstName, birthYear, course) {
+//   personPrototype.init.call(this, firstName, birthYear);
+//   this.course = course;
+// }
+
+// studentPrototype.details = function() {
+//   console.log(this.firstName+ ' is studying '+ this.course);
+// }
+
+// const sunil = Object.create(studentPrototype);
+// sunil.init('Sunil Kumar H S', 2000, 'M.C.A');
+// sunil.details();
+// sunil.claAge();
+
+
+//Bank Example
+
+class bankAccount {
+  constructor(name, currancy, pin) {
+    this.name = name;
+    this.currancy = currancy;
+    this.pin = pin;
+    this.movements = [];
+    this.local = navigator.language;
+
+    console.log('Thank you for opening account in our bank Mr.'+this.name);
+  }
+
+  deposit(val) {
+    this.movements.push(val);
+    console.log('Your amount Rs.'+val+' has been deposited into your account successfully!');
+  }
+
+  withdraw(val) {
+    this.deposit(-val);
+    console.log('Amount Rs.'+val+' has been withdrawed from your account successfully!');
+  }
+
+  approveLoan(val) {
+    return true;
+  }
+
+  requestLoan(val) {
+    if(this.approveLoan(val)) {
+      console.log('Loan approved and amount deposited to your account successfully! ');
+      this.deposit(val);
+    }
+  }
+
+}
+
+const sunil = new bankAccount('Sunil Kumar H S', 'INR', 1718);
+
+sunil.deposit(500);
+sunil.deposit(1000);
+sunil.withdraw(600);
+sunil.requestLoan(10000)
+
+console.log(sunil);
