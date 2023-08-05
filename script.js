@@ -379,37 +379,64 @@ console.log('------------------------------');
 //Bank Example
 
 class bankAccount {
+  //public fields
+  local = navigator.language;
+
+  //private fields
+  #movements = [];
+  #pin;
+
   constructor(name, currancy, pin) {
     this.name = name;
     this.currancy = currancy;
-    this.pin = pin;
-    this.movements = [];
-    this.local = navigator.language;
+    this.#pin = pin;
 
-    console.log('Thank you for opening account in our bank Mr.'+this.name);
+    console.log('Thank you for opening account in our bank Mr.' + this.name);
+  }
+
+  //public intefrfaces and methods
+  getMovements() {
+    return this.#movements;
   }
 
   deposit(val) {
-    this.movements.push(val);
-    console.log('Your amount Rs.'+val+' has been deposited into your account successfully!');
+    this.#movements.push(val);
+    console.log(
+      'Your amount Rs.' +
+        val +
+        ' has been deposited into your account successfully!'
+    );
+    return this;
   }
 
   withdraw(val) {
     this.deposit(-val);
-    console.log('Amount Rs.'+val+' has been withdrawed from your account successfully!');
+    console.log(
+      'Amount Rs.' +
+        val +
+        ' has been withdrawed from your account successfully!'
+    );
+    return this;
   }
 
-  approveLoan(val) {
+  //private methods
+  #approveLoan(val) {
     return true;
   }
 
   requestLoan(val) {
-    if(this.approveLoan(val)) {
-      console.log('Loan approved and amount deposited to your account successfully! ');
+    if (this.#approveLoan(val)) {
+      console.log(
+        'Loan approved and amount deposited to your account successfully! '
+      );
       this.deposit(val);
+      return this;
     }
   }
 
+  static help() {
+    console.log('Helper!!');
+  }
 }
 
 const sunil = new bankAccount('Sunil Kumar H S', 'INR', 1718);
@@ -417,6 +444,99 @@ const sunil = new bankAccount('Sunil Kumar H S', 'INR', 1718);
 sunil.deposit(500);
 sunil.deposit(1000);
 sunil.withdraw(600);
-sunil.requestLoan(10000)
-
+sunil.requestLoan(10000);
+console.log(sunil.getMovements());
 console.log(sunil);
+bankAccount.help();
+//chaining methods
+sunil.deposit(2500).deposit(4200).withdraw(3000).requestLoan(25000);
+console.log(sunil.getMovements());
+console.log('------------------------------');
+console.log('//////////////////////////////');
+console.log('Coding Challenge #3');
+///////////////////////////////////////
+// Coding Challenge #4
+
+/* 
+1. Re-create challenge #3, but this time using ES6 classes: create an 'EVCl' child class of the 'CarCl' class
+2. Make the 'charge' property private;
+3. Implement the ability to chain the 'accelerate' and 'chargeBattery' methods of this class, and also update the 'brake' method in the 'CarCl' class. They experiment with chining!
+
+DATA CAR 1: 'Rivian' going at 120 km/h, with a charge of 23%
+
+GOOD LUCK 😀
+*/
+
+class carCl {
+  constructor(manufacture, speed) {
+    this.manufacture = manufacture;
+    this.speed = speed;
+    console.log('Car class of ' + this.manufacture + ' is created!');
+  }
+
+  accelerating() {
+    console.log(`${this.manufacture} going at ${(this.speed += 10)} km/h`);
+  }
+
+  breaking() {
+    console.log(`${this.manufacture} going at ${(this.speed -= 5)} km/h`);
+  }
+
+  set speedMiles(speedVal) {
+    this.speed = speedVal * 1.6;
+  }
+
+  get speedMiles() {
+    return `${this.manufacture} traveling at ${this.speed / 1.6} mi/h`;
+  }
+}
+
+class evCl extends carCl {
+  #battery;
+  constructor(manufacture, speed, battery) {
+    super(manufacture, speed);
+    this.#battery = battery;
+  }
+
+  chargeBattery(chargePercent) {
+    this.#battery += chargePercent;
+    console.log('Your car has been charged to ' + this.#battery + ' percent!');
+    return this;
+  }
+
+  accelerating() {
+    console.log(
+      `${
+        this.manufacture
+      } is moving at ${(this.speed += 10)} km/h with a charge of ${(this.#battery -= 2)}%`
+    );
+    return this;
+  }
+
+  breaking() {
+    console.log(
+      `${
+        this.manufacture
+      } going at ${(this.speed -= 5)} km/h with a charge of ${(this.#battery -= 1)}%`
+    );
+    return this;
+  }
+}
+
+const xuv400 = new evCl('Mahindra XUV400EV', 100, 50);
+
+xuv400.chargeBattery(20);
+xuv400.accelerating();
+xuv400.breaking();
+console.log('------------------------------');
+xuv400
+  .accelerating()
+  .accelerating()
+  .breaking()
+  .breaking()
+  .chargeBattery(30)
+  .accelerating()
+  .accelerating()
+  .breaking();
+
+console.log(xuv400.speedMiles);
